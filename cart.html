@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Foodie Moodie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><!--Google Fonts API ke server se early connection-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><!--Font file delivery ke server se early + cross-origin(trusted) connection-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"><!--Google Fonts se Poppins font ko import karti hai.-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"><!--icons use kar sakte hain jaise: <i class="fab fa-facebook"></i>  Facebook icon-->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-menu">
+            <a href="index.html" class="logo">Foodie Moodie</a>
+            <div class="nav-links">
+                <a href="index.html#menu">Menu</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+                <a href="cart.html" class="cart-link active">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="container">
+            <h2>Your Cart</h2>
+            <div id="cart-items">
+                <!-- Cart items will be displayed here -->
+            </div>
+            
+            <div class="cart-summary">
+                <div class="subtotal">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="tax">
+                    <span>Tax (10%):</span>
+                    <span id="tax">$0.00</span>
+                </div>
+                <div class="total">
+                    <span>Total:</span>
+                    <span id="total">$0.00</span>
+                </div>
+                <button class="btn btn-primary checkout-btn" onclick="showCheckoutForm()">Proceed to Checkout</button><!--checkout btn styled in css-->
+            </div>
+
+            <!-- Checkout Form -->
+            <div id="checkout-form" class="checkout-form" style="display: none;">
+                <h3>Delivery Information</h3>
+                <form onsubmit="submitOrder(event)">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Delivery Address *</label>
+                        <textarea id="address" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Special Instructions</label>
+                        <textarea id="notes" placeholder="Any special instructions for delivery or food preparation"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="hideCheckoutForm()">Back to Cart</button>
+                        <button type="submit" class="btn btn-primary">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a><!--Font Awesome ka icon hai (facebook symbol).-->
+                <a href="#"><i class="fab fa-instagram"></i></a><!--Font Awesome ka icon hai (instagram symbol).-->
+                <a href="#"><i class="fab fa-twitter"></i></a><!--Font Awesome ka icon hai (twitter symbol).-->
+            </div>
+            <p>&copy; 2025 Foodie Moodie. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Get cart from localStorage
+        function getCart() {
+            const savedCart = localStorage.getItem('cart');//localStorage browser ki built-in storage hoti hai jo string format me data store karti hai
+            if (savedCart) {
+                try {
+                    const cart = JSON.parse(savedCart); //JSON.parse ka kaam hai ke string ko JavaScript object me convert kare
+                    return cart;
+                } catch (e) {
+                    console.error('Error parsing cart:', e);
+                }
+            }
+            return [];//Agar cart mila to return karta hai, agar nahi mila to khaali array [] return karta hai
+        }
+
+        // Save cart to localStorage
+        function saveCart(cart) {
+            //Cart (ek JS object ya array) ko string mein convert karta hai (kyunki localStorage sirf strings store kar sakta hai)
+            localStorage.setItem('cart', JSON.stringify(cart));//Cart ko browser ki memory (localStorage) mein save karta hai + 
+        }
+
+        // Display cart items
+        function displayCart() {
+            const cart = getCart();//localStorage se cart data uthaya jata hai.
+            
+            const cartItemsDiv = document.getElementById('cart-items');//to change content of html element
+            //check kre ga keh cart mein koi item he ya nhi
+            if (!cart || cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
+                updateTotals(0);
+                return;//is se function yahin ruk jata hai (neeche ka code nahi chalta).
+            }
+
+            let cartHTML = '';
+            let subtotal = 0;
+            //agr cart mein koi new item add ho to us ki price add krega
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * (item.quantity || 1);//Agar quantity undefined ho, to default 1 le raha hai
+                subtotal += itemTotal;
+                
+                cartHTML += `
+                    <div class="cart-item">
+                        <div class="item-details">
+                            <h3>${item.name}</h3>
+                            <p>Price: $${item.price.toFixed(2)}</p>
+                            <div class="quantity-controls">
+                                <button onclick="updateQuantity(${index}, -1)">-</button>
+                                <span>${item.quantity || 1}</span>
+                                <button onclick="updateQuantity(${index}, 1)">+</button>
+                            </div>
+                            <p>Total: $${itemTotal.toFixed(2)}</p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn btn-danger" onclick="removeItem(${index})">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartItemsDiv.innerHTML = cartHTML;//Saari banayi hui HTML cart mein inject kar deta hai
+            updateTotals(subtotal);//Subtotal, tax, aur total calculate karta hai
+            updateCartCount();//Cart icon ke upar item count update karta hai
+        }
+
+        // Update item quantity
+        function updateQuantity(index, change) {
+            const cart = getCart();//Local storage se poora cart fetch hota hai
+            const item = cart[index];//Us index wale item ko cart array se nikala gaya
+            const newQuantity = (item.quantity || 1) + change;
+            
+            if (newQuantity > 0 && newQuantity <= 10) {
+                item.quantity = newQuantity;//Cart ke us item ki quantity update kar di jaati hai
+                saveCart(cart);//Cart ko localStorage me dobara save kiya jaata hai
+                displayCart();
+            }
+        }
+
+        // Remove item from cart
+        function removeItem(index) {
+            const cart = getCart();
+            cart.splice(index, 1);//index wale element ko 1 item ke liye delete kar diya gaya
+            saveCart(cart);
+            displayCart();
+        }
+
+        // Update totals
+        function updateTotals(subtotal) {
+            const tax = subtotal * 0.10;
+            const total = subtotal + tax;
+
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) {
+                const cart = getCart();
+                cartCount.textContent = cart.length;
+            }
+        }
+
+        // Show checkout form
+        function showCheckoutForm() {
+            const cart = getCart();
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            document.getElementById('checkout-form').style.display = 'block';
+            document.querySelector('.cart-summary .checkout-btn').style.display = 'none';//document.querySelector('.cart-summary .checkout-btn').style.display = 'none';
+        }
+
+        // Hide checkout form
+        function hideCheckoutForm() {
+            document.getElementById('checkout-form').style.display = 'none';
+            document.querySelector('.cart-summary .checkout-btn').style.display = 'block';
+        }
+
+        // Submit order
+        function submitOrder(event) {
+            event.preventDefault();
+            
+            const orderDetails = {
+                items: getCart(),
+                customer: {
+                    name: document.getElementById('name').value,
+                    phone: document.getElementById('phone').value,
+                    email: document.getElementById('email').value,
+                    address: document.getElementById('address').value,
+                    notes: document.getElementById('notes').value
+                },
+                total: parseFloat(document.getElementById('total').textContent.replace('$', ''))
+            };
+            
+            console.log('Order submitted:', orderDetails);
+            alert('Thank you for your order! We will contact you shortly for confirmation.');
+            
+            // Clear cart and reset form
+            saveCart([]);
+            displayCart();
+            hideCheckoutForm();
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, initializing cart');
+            displayCart();
+        });
+    </script>
+</body>
+</html> 

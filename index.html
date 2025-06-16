@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie Moodie - Gourmet Sandwiches</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">   <!--Google Fonts API ke server se early connection-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  <!--Font file delivery ke server se early + cross-origin(trusted) connection-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"> <!--Google Fonts se Poppins font ko import karti hai.-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"><!--icons use kar sakte hain jaise: <i class="fab fa-facebook"></i>  Facebook icon-->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/cart.js" defer></script><!--defer: performance better hoti hai-->
+    <script src="js/script.js" defer></script><!--defer: js  file tab execute hogi jab pura HTML load ho chuka hoga.-->
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-menu">
+            <a href="index.html" class="logo">Foodie Moodie</a>
+            <div class="nav-links">
+                <a href="#menu">Menu</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="cart.html" class="cart-link"><!--means this link goes to the cart page.-->
+                    <i class="fas fa-shopping-cart"></i><!--Font Awesome ka icon hai (shopping cart symbol).-->
+                    <span class="cart-count">0</span><!--Shows number of items in cart-->
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+        <section class="hero">
+        <div class="hero-content fade-in">
+            <h1>Welcome to Foodie Moodie</h1>
+            <p>Experience the art of gourmet sandwich making</p>
+            <a href="#menu" class="btn btn-primary">View Our Menu</a>
+            <a href="#contact" class="btn btn-secondary">Contact Us</a>
+        </div>
+        </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section">
+        <h2 class="section-title">Our Menu</h2>
+        <div class="menu-categories">
+            <h3 class="category-title" onclick="switchCategory('starters')">Starters</h3>
+            <h3 class="category-title" onclick="switchCategory('sandwiches')">Sandwiches</h3><!--script file mein function defined he-->
+            <h3 class="category-title" onclick="switchCategory('drinks')">Drinks</h3>
+        </div>
+
+        <div class="menu-container">
+            <!-- Sandwiches -->
+            <div class="menu-grid category-sandwiches" style="display: grid;">
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1481070414801-51fd732d7184?w=600&q=80" alt="Classic Dagwood">
+                    <div class="menu-item-content">
+                        <h3>Classic Dagwood</h3>
+                        <p>Multiple layers of premium meats, cheeses, and fresh vegetables</p>
+                        <div class="price">$12.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Classic Dagwood', 12.99)">Add to Cart</button><!--add to cart defined in js file-->
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1540713434306-58505cf1b6fc?w=600&q=80" alt="Veggie Delight">
+                    <div class="menu-item-content">
+                        <h3>Veggie Delight</h3>
+                        <p>Fresh vegetables, hummus, and our special herb dressing</p>
+                        <div class="price">$10.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Veggie Delight', 10.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1628191010210-a59de33e5941?w=600&q=80" alt="Spicy Italian">
+                    <div class="menu-item-content">
+                        <h3>Spicy Italian</h3>
+                        <p>Italian meats, provolone cheese, and spicy peppers</p>
+                        <div class="price">$11.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Spicy Italian', 11.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1621800043295-a73fe2f76e2c?w=600&q=80" alt="Mediterranean">
+                    <div class="menu-item-content">
+                        <h3>Mediterranean</h3>
+                        <p>Feta cheese, olives, cucumber, and Mediterranean dressing</p>
+                        <div class="price">$11.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Mediterranean', 11.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1567234669003-dce7a7a88821?w=600&q=80" alt="Club Supreme">
+                    <div class="menu-item-content">
+                        <h3>Club Supreme</h3>
+                        <p>Triple-decker with turkey, bacon, lettuce, and tomato</p>
+                        <div class="price">$13.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Club Supreme', 13.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1550507992-eb63ffee0847?w=600&q=80" alt="Chicken Avocado">
+                    <div class="menu-item-content">
+                        <h3>Chicken Avocado</h3>
+                        <p>Grilled chicken, fresh avocado, and chipotle mayo</p>
+                        <div class="price">$12.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Chicken Avocado', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1475090169767-40ed8d18f67d?w=600&q=80" alt="Tuna Melt">
+                    <div class="menu-item-content">
+                        <h3>Tuna Melt</h3>
+                        <p>House-made tuna salad with melted cheddar cheese</p>
+                        <div class="price">$11.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Tuna Melt', 11.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1513442542250-854d436a73f2?w=600&q=80" alt="Philly Cheese Steak">
+                    <div class="menu-item-content">
+                        <h3>Philly Cheese Steak</h3>
+                        <p>Sliced beef, grilled onions, and melted provolone</p>
+                        <div class="price">$13.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Philly Cheese Steak', 13.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Starters -->
+            <div class="menu-grid category-starters" style="display: none;">
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1619096252214-ef06c45683e3?w=600&q=80" alt="Garlic Bread">
+                    <div class="menu-item-content">
+                        <h3>Garlic Bread</h3>
+                        <p>Toasted bread with garlic butter and herbs</p>
+                        <div class="price">$4.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Garlic Bread', 4.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1613844237701-8f3664fc2eff?w=600&q=80" alt="Soup of the Day">
+                    <div class="menu-item-content">
+                        <h3>Soup of the Day</h3>
+                        <p>Fresh homemade soup served with crackers</p>
+                        <div class="price">$5.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Soup of the Day', 5.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1512852939750-1305098529bf?w=600&q=80" alt="Caesar Salad">
+                    <div class="menu-item-content">
+                        <h3>Caesar Salad</h3>
+                        <p>Crisp romaine, parmesan, croutons, and Caesar dressing</p>
+                        <div class="price">$7.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Caesar Salad', 7.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1623238913973-21e45cced554?w=600&q=80" alt="Potato Wedges">
+                    <div class="menu-item-content">
+                        <h3>Potato Wedges</h3>
+                        <p>Seasoned potato wedges with dipping sauce</p>
+                        <div class="price">$5.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Potato Wedges', 5.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drinks -->
+            <div class="menu-grid category-drinks" style="display: none;">
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&q=80" alt="Chocolate Shake">
+                    <div class="menu-item-content">
+                        <h3>Chocolate Shake</h3>
+                        <p>Rich chocolate milkshake topped with whipped cream</p>
+                        <div class="price">$5.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Chocolate Shake', 5.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=600&q=80" alt="Strawberry Shake">
+                    <div class="menu-item-content">
+                        <h3>Strawberry Shake</h3>
+                        <p>Fresh strawberry milkshake with whipped cream</p>
+                        <div class="price">$5.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Strawberry Shake', 5.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=600&q=80" alt="Vanilla Shake">
+                    <div class="menu-item-content">
+                        <h3>Vanilla Shake</h3>
+                        <p>Classic vanilla milkshake with whipped cream</p>
+                        <div class="price">$5.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Vanilla Shake', 5.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1624781740834-fbfbf5fd221a?w=600&q=80" alt="Oreo Shake">
+                    <div class="menu-item-content">
+                        <h3>Oreo Shake</h3>
+                        <p>Creamy milkshake blended with Oreo cookies</p>
+                        <div class="price">$6.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Oreo Shake', 6.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80" alt="Fresh Lemonade">
+                    <div class="menu-item-content">
+                        <h3>Fresh Lemonade</h3>
+                        <p>Homemade lemonade with fresh lemons</p>
+                        <div class="price">$3.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Fresh Lemonade', 3.99)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1499638673689-79a0b5115d87?w=600&q=80" alt="Iced Tea">
+                    <div class="menu-item-content">
+                        <h3>Iced Tea</h3>
+                        <p>Fresh brewed iced tea, sweetened or unsweetened</p>
+                        <div class="price">$3.99</div>
+                        <button class="btn btn-primary" onclick="addToCart('Iced Tea', 3.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="about-content fade-in">
+            <h2>Our Story</h2>
+            <p>At Dagwood's, we've been crafting the perfect sandwiches since 1995. Our commitment to quality ingredients and exceptional taste has made us a local favorite.</p>
+            <p>Every sandwich is made fresh to order, using locally sourced ingredients and our signature recipes.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="contact-form fade-in">
+            <h2>Contact Us</h2>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>22-km Main Ferozpur Road</p>
+                <p>Foodie Moodie , Nishtar</p>
+                <p>Phone: 0300-1788821</p>
+                <p>Email: info@foodiemoodie.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hours</h3>
+                <p>Monday - Friday: 10am - 9pm</p>
+                <p>Saturday: 11am - 10pm</p>
+                <p>Sunday: 11am - 8pm</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a><!--Font Awesome ka icon hai (facebook symbol).-->
+                    <a href="#"><i class="fab fa-instagram"></i></a><!--Font Awesome ka icon hai (instagram symbol).-->
+                    <a href="#"><i class="fab fa-twitter"></i></a><!--Font Awesome ka icon hai (twitter symbol).-->
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 FoodieModie. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
